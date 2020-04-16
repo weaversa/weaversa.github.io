@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><title></title></head><body><FORM NAME=bddvis METHOD=POST
+action="http://gauss.ececs.uc.edu/sbsat_user_manual/bdd_visualizer.php">
+  <INPUT TYPE="text" NAME="filename" onClick="this.form.target='_blank';"
+VALUE="bdd_visualizer" SIZE=30>
+  <SELECT NAME="filetype">
+    <OPTION VALUE="dia"          >.dia
+	 <OPTION VALUE="dot"          >.dot
+     <OPTION VALUE="fig"          >.fig
+      <OPTION VALUE="gif"          >.gif
+    <OPTION VALUE="jpeg"         >.jpeg
+     <OPTION VALUE="jpg"          >.jpg
+      <OPTION VALUE="png"          >.png
+    <OPTION VALUE="pdf" SELECTED >.pdf
+     <OPTION VALUE="ps"           >.ps
+      <OPTION VALUE="ps2"          >.ps2
+    <OPTION VALUE="svg"          >.svg
+     <OPTION VALUE="svgz">.svgz
+      <OPTION VALUE="txt"    >.txt
+  </SELECT>
+                <p class="paragraph_style"><span style="line-height: 19px; " class="style_1"><br /></span></p>
+
+<TEXTAREA NAME="bdd-input" ROWS=20 COLS=80>
+; Sample input - creates 2 BDDs and displays them both joined and separate
+; Text following a semicolon is ignored (comment)
+; T,t and F,f are reserved for True and False, respectively
+; Variables parsed first will occur near the leaves of the BDD
+; Variables parsed last will occur near the root of the BDD
+
+order(var1, var3, var2) ; This is used to control BDD variable ordering
+                        ; The list can be any length>0 and is terminated by ')'
+
+or(var1, var2, var3) ; BDD $1 Created
+
+ite(x, xor(y, var1, T), or(y, F)) ; BDD $2 Created
+
+print($1, $2) ; Prints BDDs $1, $2 to page 1 of the file
+              ; Node sharing between BDDs is maintained
+              ; 'print' statements do not create BDDs
+
+print($1) ; Prints BDD $1 to page 2 of the file
+
+print($2) ; Prints BDD $2 to page 3 of the file
+
+;-------------------------------------------------------------------------
+
+; Example from Lewis Carrol -
+; Coloured flowers are always scented.
+; I dislike flowers that are not grown in the open air.
+; No flowers grown in the open air are colourless.
+; Do I dislike all flowers that are not scented?
+; If the conjunction is exactly 'False' then the answer to the question
+; is yes, otherwise the answer is no and a path to True gives the reason
+print(
+      and(
+          imp(Coloured, Scented)
+          imp(-OpenAir, -Like)
+          imp(OpenAir, Coloured)
+          not(imp(-Scented, -Like))
+      )
+) ; Prints a BDD to page 4 of the file.</TEXTAREA>
+                  <INPUT type="submit" name="bdd_vis" VALUE="Submit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT type="reset" onClick="this.form.target='_self';" VALUE="Reset Form">
+
+<!--onClick="this.form.target='_blank';this.form.filedesc.value='';var d=new Date(); document.myform.action='http://gauss.ececs.uc.edu/sbsat_user_manual/bdd_visualizer.php?'+d.getTime();"
+-->
+</FORM></body></html>
